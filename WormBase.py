@@ -12,8 +12,8 @@ import re
 
 # Variables
 # A couple of test genes
-genes = ["WBGene00001187", "WBGene00000529", "WBGene00004830", "WBGene00004831", "WBGene00006772", "WBGene00022106", "WBGene00022240", "WBGene00006318"]
-geneIDs = []
+genes = []
+genesIDs = ["WBGene00001187", "WBGene00000529", "WBGene00004830", "WBGene00004831", "WBGene00006772", "WBGene00022106", "WBGene00022240", "WBGene00006318"]
 
 
 # Gene class
@@ -33,17 +33,31 @@ print(r.json())
 
 def getGene(wbid):
     r = requests.get(baseURL + wbid + "/overview", headers=headers) 
-    
     j = r.json()
+
+
+
+
+
+    
     geneID = wbid 
     proteinName = j['fields']['name']['data']['label']
     description = j['fields']['concise_description']['data']['text']
-    print description
     geneClass = ""
-    gene = Gene(geneID, proteinName, description,  geneClass) 
+
+    gene = {}
+    gene["Gene WB ID"] = geneID
+    gene["proteinName"] = proteinName 
+    gene["description"] = description
+    
     return gene 
 
-print getGene('WBGene00001187')
+
+for wbid in geneIDs:
+    gene = getGene(wbid)
+    genes.append(gene)
+
+print(genes)
 
 # Create the columns based on the Excel Spreadsheet
 
