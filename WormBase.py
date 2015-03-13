@@ -13,7 +13,7 @@ import re
 # Variables
 # A couple of test genes
 genes = []
-genesIDs = ["WBGene00001187", "WBGene00000529", "WBGene00004830", "WBGene00004831", "WBGene00006772", "WBGene00022106", "WBGene00022240", "WBGene00006318"]
+geneIDs = ["WBGene00001187", "WBGene00000529", "WBGene00004830", "WBGene00004831", "WBGene00006772", "WBGene00022106", "WBGene00022240", "WBGene00006318"]
 
 
 # Gene class
@@ -57,11 +57,13 @@ for wbid in geneIDs:
     gene = getGene(wbid)
     genes.append(gene)
 
-print(genes)
+# Create the dataframe table
+df = pd.DataFrame(genes)
 
+print(df)
 # Create the columns based on the Excel Spreadsheet
 
-columns = ["Gene WB ID","Protein ShortName", "Gene Public Name", "Description", "PMID for evidence", "Protein Name", "Gene Class", "Expression Pattern in Adults", "PMID for expression evidence", "Expressed in neurons", "Expression Info" ]
+#columns = ["Gene WB ID","Protein ShortName", "Gene Public Name", "Description", "PMID for evidence", "Protein Name", "Gene Class", "Expression Pattern in Adults", "PMID for expression evidence", "Expressed in neurons", "Expression Info" ]
 
 # Create rows based on Protein IDs
 # Save to file
