@@ -23,7 +23,8 @@ class Gene:
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-# Connect with the WormBase API
+# Testing connection with the WormBase API
+
 
 baseURL = "http://api.wormbase.org/rest/widget/gene/"
 headers = {'content-type': 'application/json'}
@@ -31,25 +32,30 @@ r = requests.get(baseURL + "WBGene00001187/description", headers=headers)
 print(r.json())
 
 
+#columns = ["Gene WB ID","Protein ShortName", "Gene Public Name", "Description", "PMID for evidence", "Protein Name", "Gene Class", "Expression Pattern in Adults", "PMID for expression evidence", "Expressed in neurons", "Expression Info" ]
+
 def getGene(wbid):
     r = requests.get(baseURL + wbid + "/overview", headers=headers) 
     j = r.json()
 
 
 
-
-
-    
     geneID = wbid 
     proteinName = j['fields']['name']['data']['label']
     description = j['fields']['concise_description']['data']['text']
     geneClass = ""
+    descriptionEvidence = [] 
+    
+    for ev in j['fields']['concise_description']['data']['evidence']['Paper_evidence']:
+        descriptionEvidence.append(ev['id'])
+        
 
+# Different code to be assigned later, dictionary is temp, may replace with a gene class
     gene = {}
     gene["Gene WB ID"] = geneID
-    gene["proteinName"] = proteinName 
-    gene["description"] = description
-    
+    gene["Protein Name"] = proteinName 
+    gene["Description"] = description
+    gene["Description Evidence"] = descriptionEvidence    
     return gene 
 
 
@@ -61,10 +67,8 @@ for wbid in geneIDs:
 df = pd.DataFrame(genes)
 
 print(df)
-# Create the columns based on the Excel Spreadsheet
 
-#columns = ["Gene WB ID","Protein ShortName", "Gene Public Name", "Description", "PMID for evidence", "Protein Name", "Gene Class", "Expression Pattern in Adults", "PMID for expression evidence", "Expressed in neurons", "Expression Info" ]
 
-# Create rows based on Protein IDs
 # Save to file
 
+df.to_csv(path_or_buf = "./table.csv")
