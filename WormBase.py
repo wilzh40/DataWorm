@@ -46,7 +46,7 @@ def getGene(wbid):
     descriptionEvidence = [] 
     
     for ev in j['fields']['concise_description']['data']['evidence']['Paper_evidence']:
-        descriptionEvidence.append(ev['id'])
+        descriptionEvidence.append(ev['id'].encode('utf8'))
         
     geneClass = j['fields']['gene_class']['data']['description']
     
@@ -55,8 +55,8 @@ def getGene(wbid):
     j = r.json()
 
     expPattern = []
-    for pattern in j['fields']['expression_patterns']['data']
-        expPattern.append(pattern['expression_pattern']['id']
+    for pattern in j['fields']['expression_patterns']['data']:
+        expPattern.append(pattern['expression_pattern']['id'].encode('utf8'))
 # Different code to be assigned later, dictionary is temp, may replace with a gene class
     gene = {}
     gene["Gene WB ID"] = geneID
