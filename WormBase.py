@@ -43,19 +43,28 @@ def getGene(wbid):
     geneID = wbid 
     proteinName = j['fields']['name']['data']['label']
     description = j['fields']['concise_description']['data']['text']
-    geneClass = ""
     descriptionEvidence = [] 
     
     for ev in j['fields']['concise_description']['data']['evidence']['Paper_evidence']:
         descriptionEvidence.append(ev['id'])
         
+    geneClass = j['fields']['gene_class']['data']['description']
+    
+    # Different URI for expression
+    r = requests.get(baseURL + wbid + "/expression", headers=headers) 
+    j = r.json()
 
+    expPattern = []
+    for pattern in j['fields']['expression_patterns']['data']
+        expPattern.append(pattern['expression_pattern']['id']
 # Different code to be assigned later, dictionary is temp, may replace with a gene class
     gene = {}
     gene["Gene WB ID"] = geneID
     gene["Protein Name"] = proteinName 
     gene["Description"] = description
     gene["Description Evidence"] = descriptionEvidence    
+    gene["Gene Class"] = geneClass
+    gene["Expression Pattern in Adults"] = expPattern
     return gene 
 
 
